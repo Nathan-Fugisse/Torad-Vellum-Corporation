@@ -3,67 +3,195 @@
 <head>
     <title>Torad Vellum - Área Restrita dos Agentes</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body { 
-            background-color: #121212; 
-            font-family: Courier New, monospace; 
+            background-color: #000000; 
+            font-family: 'Courier New', Courier, monospace; 
             color: #e0e0e0; 
             max-width: 900px; 
             margin: 0 auto; 
-            padding: 20px;
+            padding: 30px 20px;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://i.imgur.com/0Kz3QzH.png');
+            background-size: cover;
+            background-attachment: fixed;
         }
-        .formulario { 
-            background-color: #1e1e1e; 
-            padding: 20px; 
-            border: 1px solid #8b0000; 
-            max-width: 400px; 
-            margin: 0 auto;
+        .container {
+            background-color: #0a0a0a;
+            border: 2px solid #8b0000;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(139, 0, 0, 0.5);
+        }
+        h1 { 
+            text-align: center; 
+            border-bottom: 2px solid #8b0000; 
+            padding-bottom: 15px;
+            color: #ff0000;
+            font-size: 26px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            color: #00ff00;
+            font-size: 16px;
+            margin-bottom: 8px;
+            font-weight: bold;
         }
         input { 
-            margin: 5px 0; 
-            padding: 8px; 
-            width: 95%; 
-            background-color: #2e2e2e;
-            border: 1px solid #8b0000;
+            width: 100%; 
+            background-color: #1a1a1a;
+            border: 1px solid #00ff00;
             color: #e0e0e0;
+            padding: 12px 15px;
+            font-size: 16px;
+            border-radius: 3px;
+            font-family: inherit;
+        }
+        input:focus {
+            outline: none;
+            border-color: #ff0000;
+            box-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
         }
         button { 
+            width: 100%;
             background-color: #8b0000; 
             color: white; 
-            padding: 10px 20px; 
+            padding: 12px; 
             border: none; 
             cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 3px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background-color 0.3s ease;
             margin-top: 10px;
         }
         button:hover {
             background-color: #ff0000;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+        }
+        .info-box {
+            background-color: #1a1a1a;
+            padding: 15px;
+            border: 1px solid #00ff00;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 14px;
+        }
+        .usuario-valido {
+            color: #00ff00;
+            font-weight: bold;
+            display: block;
+            margin-top: 5px;
         }
         .aviso {
             color: #ff0000;
             font-size: 14px;
             text-align: center;
-            margin-top: 20px;
+            margin-top: 25px;
             font-weight: bold;
+            line-height: 1.8;
+        }
+        .links {
+            text-align: center;
+            margin-top: 20px;
         }
         a { 
-            color: #ff0000; 
+            color: #00ff00; 
             text-decoration: none; 
+            font-size: 14px;
         }
         a:hover { 
             text-decoration: underline; 
             color: #ff9800;
         }
+        .glitch-effect {
+            animation: glitch 8s infinite;
+        }
+        @keyframes glitch {
+            0% { opacity: 1; }
+            97% { opacity: 1; }
+            98% { opacity: 0.7; }
+            99% { opacity: 1; }
+        }
     </style>
 </head>
 <body>
-    <h1 align="center">ÁREA RESTRITA - AGENTES DA ORDEM</h1>
+    <div class="container">
+        <h1 class="glitch-effect">SISTEMA DE ACESSO - TORAD VELLUM</h1>
 
-    <div class="formulario">
-        <label><strong>IDENTIFICADOR DE AGENTE:</strong></label><br>
-        <input type="text" placeholder="Ex: AGENTE-1892"><br>
-        
-        <label><strong>CODIGO DE ACESSO:</strong></label><br>
-        <input type="password" placeholder="Digite seu código"><br><br>
-        
-        <!-- Botão direciona para a página de missões -->
-        <button onclick="window.location.href='missoes.html'">ACESSAR MISSOES</button>
+        <div class="info-box">
+            <p>ACESSO RESTRITO A AGENTES AUTORIZADOS</p>
+            <span class="usuario-valido">USUÁRIOS RECONHECIDOS: torad_recruta#987 | colab_torad_1892</span>
+        </div>
+
+        <div class="form-group">
+            <label for="usuario">IDENTIFICADOR DE AGENTE</label>
+            <input type="text" id="usuario" placeholder="Digite seu identificador">
+        </div>
+
+        <div class="form-group">
+            <label for="senha">CÓDIGO DE ACESSO</label>
+            <input type="password" id="senha" placeholder="Digite seu código de acesso">
+        </div>
+
+        <button onclick="verificarAcesso()">CONFIRMAR E ACESSAR</button>
+
+        <div class="aviso glitch-effect">
+            <p>QUALQUER TENTATIVA DE INVASÃO SERÁ REGISTRADA E PUNIDA</p>
+            <p>OS DADOS DESTE SISTEMA SÃO PROTEGIDOS PELO PROTOCOLO TORAD-500</p>
+        </div>
+
+        <div class="links">
+            <a href="index.html">VOLTAR PARA A PÁGINA PRINCIPAL</a>
+        </div>
     </div>
+
+    <script>
+        // Função para verificar acesso
+        function verificarAcesso() {
+            const usuarioDigitado = document.getElementById("usuario").value.trim();
+            const senhaDigitada = document.getElementById("senha").value.trim();
+            
+            // Lista de contas válidas
+            const contasValidas = [
+                { usuario: "torad_recruta#987", senha: "Vellum#Perg_987" },
+                { usuario: "colab_torad_1892", senha: "Vellum#Perg_09" } // Manterei a senha original que já existia para essa conta
+            ];
+
+            // Verifica se as credenciais batem com alguma conta
+            const contaValida = contasValidas.find(conta => 
+                conta.usuario === usuarioDigitado && conta.senha === senhaDigitada
+            );
+
+            if (contaValida) {
+                // Redireciona para a página do vídeo
+                window.location.href = "video_recruta.html";
+            } else {
+                // Alerta com efeito de sistema
+                alert("% SISTEMA DE SEGURANÇA ATIVADO %\n\nUSUÁRIO OU SENHA INVÁLIDOS\nSUA TENTATIVA FOI REGISTRADA\n\n% PROTOCOLO TORAD-ALERTA ATIVADO %");
+                // Limpa os campos
+                document.getElementById("usuario").value = "";
+                document.getElementById("senha").value = "";
+            }
+        }
+
+        // Permite acessar com a tecla Enter
+        document.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                verificarAcesso();
+            }
+        });
+    </script>
+</body>
+</html>
