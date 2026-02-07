@@ -327,9 +327,9 @@
     <!-- Container Principal com Abas -->
     <div class="container-principal">
         <div class="abas">
-            <button class="aba-btn ativa" onclick="mudarAba('aba-missoes')">Mural de Missões</button>
-            <button class="aba-btn" onclick="mudarAba('aba-vitimas')">Arquivos de Vítimas</button>
-            <button class="aba-btn" onclick="mudarAba('aba-chat')">Chat Online</button>
+            <button class="aba-btn ativa" onclick="mudarAba('aba-missoes', this)">Mural de Missões</button>
+            <button class="aba-btn" onclick="mudarAba('aba-vitimas', this)">Arquivos de Vítimas</button>
+            <button class="aba-btn" onclick="mudarAba('aba-chat', this)">Chat Online</button>
         </div>
 
         <!-- Aba Mural de Missões -->
@@ -371,7 +371,7 @@
             </div>
         </div>
 
-        <!-- Aba Arquivos de Vítimas (Estilo Antigo Atualizado) -->
+        <!-- Aba Arquivos de Vítimas -->
         <div class="aba-conteudo" id="aba-vitimas">
             <h2 class="glitch-effect">ARQUIVOS DE VÍTIMAS - CLASSIFICADO NÍVEL 5</h2>
 
@@ -397,7 +397,7 @@
             <div class="arquivo-vitima">
                 <p class="codigo-vitima">ARQUIVO VÍTIMA #002 - CÓDIGO "Ladrão"</p>
                 <p><span class="dado-vitima">NOME:</span> Tulio Mendes</p>
-                                <p><span class="dado-vitima">IDADE:</span> 45 anos</p>
+                <p><span class="dado-vitima">IDADE:</span> 45 anos</p>
                 <p><span class="dado-vitima">MAIOR MEDO:</span> A morte de Ale Breu</p>
                 <p><span class="dado-vitima">ESCALA DE RISCO:</span> <span class="risco-alto">9/10</span></p>
                 <p><span class="dado-vitima">TRABALHO:</span> Ex-Rank Z</p>
@@ -491,8 +491,8 @@
 
     <!-- Scripts das Funcionalidades -->
     <script>
-        // Função para mudar entre abas
-        function mudarAba(idAba) {
+        // Função CORRIGIDA para mudar entre abas
+        function mudarAba(idAba, botaoClicado) {
             // Esconde todas as abas
             const abasConteudo = document.querySelectorAll('.aba-conteudo');
             const abasBotoes = document.querySelectorAll('.aba-btn');
@@ -502,7 +502,7 @@
             
             // Mostra a aba selecionada
             document.getElementById(idAba).classList.add('ativa');
-            event.target.classList.add('ativa');
+            botaoClicado.classList.add('ativa');
         }
 
         // Função para enviar mensagem no chat
@@ -550,4 +550,3 @@
     </script>
 </body>
 </html>
-
