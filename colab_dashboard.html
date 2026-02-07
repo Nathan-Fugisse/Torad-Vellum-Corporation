@@ -1,53 +1,401 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-    <title>Torad Vellum - Nossa História</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torad Vellum - Painel Colaborador</title>
     <style>
+        /* Estilos Gerais do Painel */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        :root {
+            --cor-primaria: #8b0000;
+            --cor-secundaria: #000000;
+            --cor-terciaria: #0a0a0a;
+            --cor-fundo: #1a1a1a;
+            --cor-texto-verde: #00ff00;
+            --cor-texto-laranja: #ff9800;
+            --cor-texto-vermelho: #ff0000;
+            --cor-texto-claro: #e0e0e0;
+        }
+
         body { 
-            background-color: #121212; 
-            font-family: Courier New, monospace; 
-            color: #e0e0e0; 
-            max-width: 900px; 
+            background-color: var(--cor-secundaria); 
+            color: var(--cor-texto-claro);
+            max-width: 1200px; 
             margin: 0 auto; 
-            padding: 20px;
-            line-height: 1.6;
+            padding: 30px 20px;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url('https://i.imgur.com/0Kz3QzH.png');
+            background-size: cover;
+            background-attachment: fixed;
         }
-        h1 { 
-            text-align: center; 
-            border-bottom: 2px solid #8b0000; 
+
+        /* Menu Superior */
+        .nav-topo {
+            background-color: var(--cor-terciaria);
+            border: 2px solid var(--cor-primaria);
+            padding: 15px 20px;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 15px rgba(139, 0, 0, 0.5);
+        }
+
+        .nav-logo {
+            color: var(--cor-texto-vermelho);
+            font-size: 22px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .nav-usuario {
+            text-align: right;
+        }
+
+        .nav-usuario p {
+            color: var(--cor-texto-verde);
+            font-weight: bold;
+        }
+
+        .btn-sair {
+            background-color: var(--cor-primaria);
+            color: var(--cor-texto-claro);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-sair:hover {
+            background-color: var(--cor-texto-vermelho);
+        }
+
+        /* Container Principal com Abas */
+        .container-principal {
+            background-color: var(--cor-terciaria);
+            border: 2px solid var(--cor-primaria);
+            padding: 25px;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(139, 0, 0, 0.5);
+        }
+
+        .abas {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--cor-primaria);
             padding-bottom: 10px;
-            color: #ff0000;
         }
-        .epoca {
-            color: #ff9800;
-            font-size: 20px;
-            margin-top: 30px;
+
+        .aba-btn {
+            background-color: var(--cor-fundo);
+            border: 1px solid var(--cor-texto-verde);
+            color: var(--cor-texto-verde);
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: bold;
         }
-        a { 
-            color: #ff0000; 
-            text-decoration: none; 
+
+        .aba-btn.ativa {
+            background-color: var(--cor-primaria);
+            border-color: var(--cor-primaria);
+            color: var(--cor-texto-claro);
         }
-        a:hover { 
-            text-decoration: underline; 
-            color: #ff9800;
+
+        .aba-conteudo {
+            display: none;
+        }
+
+        .aba-conteudo.ativa {
+            display: block;
+        }
+
+        /* Estilos do Mural de Missões */
+        .mural-missoes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .missao-card {
+            background-color: var(--cor-fundo);
+            padding: 15px;
+            border-left: 3px solid;
+        }
+
+        .missao-pendente { border-color: var(--cor-texto-laranja); }
+        .missao-em-andamento { border-color: var(--cor-texto-verde); }
+        .missao-concluida { border-color: var(--cor-primaria); }
+
+        .missao-titulo {
+            color: var(--cor-texto-laranja);
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .missao-dado {
+            color: var(--cor-texto-verde);
+            font-weight: bold;
+            display: inline-block;
+            width: 130px;
+        }
+
+        /* Estilos dos Arquivos de Vítimas (mantendo o estilo antigo) */
+        h2 { 
+            text-align: center; 
+            border-bottom: 2px solid var(--cor-primaria); 
+            padding-bottom: 15px;
+            color: var(--cor-texto-vermelho);
+            font-size: 22px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .perfil-acesso {
+            background-color: var(--cor-fundo);
+            padding: 15px;
+            border: 1px solid var(--cor-texto-verde);
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .arquivo-vitima {
+            background-color: var(--cor-fundo);
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 3px solid var(--cor-primaria);
+        }
+
+        .codigo-vitima {
+            color: var(--cor-texto-laranja);
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .dado-vitima {
+            color: var(--cor-texto-verde);
+            font-weight: bold;
+            display: inline-block;
+            width: 150px;
+        }
+
+        .risco-baixo { color: var(--cor-texto-verde); }
+        .risco-medio { color: var(--cor-texto-laranja); }
+        .risco-alto { color: var(--cor-texto-vermelho); }
+
+        /* Estilos do Chat Online */
+        .chat-container {
+            background-color: var(--cor-fundo);
+            border: 1px solid var(--cor-texto-verde);
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            padding: 10px;
+            border-bottom: 1px solid var(--cor-texto-verde);
+            text-align: center;
+            color: var(--cor-texto-verde);
+            font-weight: bold;
+        }
+
+        .chat-mensagens {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .mensagem {
+            max-width: 70%;
+            padding: 8px;
+            border-radius: 3px;
+        }
+
+        .mensagem-recebida {
+            background-color: var(--cor-terciaria);
+            border: 1px solid var(--cor-texto-laranja);
+            align-self: flex-start;
+        }
+
+        .mensagem-enviada {
+            background-color: var(--cor-primaria);
+            align-self: flex-end;
+        }
+
+        .mensagem-remetente {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+
+        .chat-input {
+            padding: 10px;
+            border-top: 1px solid var(--cor-texto-verde);
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 8px;
+            background-color: var(--cor-terciaria);
+            border: 1px solid var(--cor-texto-verde);
+            color: var(--cor-texto-claro);
+        }
+
+        .btn-enviar {
+            background-color: var(--cor-primaria);
+            border: none;
+            color: var(--cor-texto-claro);
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+
+        /* Efeito Glitch */
+        .glitch-effect {
+            animation: glitch 8s infinite;
+        }
+
+        @keyframes glitch {
+            0% { opacity: 1; }
+            97% { opacity: 1; }
+            98% { opacity: 0.7; }
+            99% { opacity: 1; }
+        }
+
+        /* Aviso Final */
+        .aviso {
+            color: var(--cor-texto-vermelho);
+            font-size: 14px;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            line-height: 1.8;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .nav-topo {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .abas {
+                flex-direction: column;
+            }
+
+            .mural-missoes {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>NOSSA HISTÓRIA - 500 A.C. ATÉ OS DIAS DE HOJE</h1>
+    <!-- Menu Superior -->
+    <div class="nav-topo">
+        <div class="nav-logo">TORAD VELLUM</div>
+        <div class="nav-usuario">
+            <p>AGENTE: colab_torad_1892</p>
+            <p>NÍVEL DE ACESSO: 5</p>
+            <button class="btn-sair" onclick="sairDoSistema()">SAIR DO SISTEMA</button>
+        </div>
+    </div>
 
-    <div class="epoca">• FUNDADÃO (500 A.C.)</div>
-    <p>Criada na Grécia Antiga por um grupo de estrategistas e guerreiros, sob o nome de "Ordem do Vellum" – o pergaminho simbolizava o controle sobre o destino dos homens. A primeira operação foi a eliminação de um tirano que ameaçava desestabilizar a região.</p>
+    <!-- Container Principal com Abas -->
+    <div class="container-principal">
+        <div class="abas">
+            <button class="aba-btn ativa" onclick="mudarAba('aba-missoes')">Mural de Missões</button>
+            <button class="aba-btn" onclick="mudarAba('aba-vitimas')">Arquivos de Vítimas</button>
+            <button class="aba-btn" onclick="mudarAba('aba-chat')">Chat Online</button>
+        </div>
 
-    <div class="epoca">• IMPÉRIO ROMANO (100 D.C. - 476 D.C.)</div>
-    <p>Nossos agentes infiltraram-se na corte imperial, eliminando imperadores corruptos e garantindo que o império se expandisse de forma controlada. Muitas "mortes naturais" registradas na época foram obra nossa.</p>
+        <!-- Aba Mural de Missões -->
+        <div class="aba-conteudo ativa" id="aba-missoes">
+            <h2 class="glitch-effect">MURAL DE MISSÕES - CLASSIFICADO NÍVEL 5</h2>
+            
+            <div class="mural-missoes">
+                <div class="missao-card missao-pendente">
+                    <div class="missao-titulo">Missão #M001 - "Identificar"</div>
+                    <p><span class="missao-dado">Objetivo:</span> Nova vítima para ritual</p>
+                    <p><span class="missao-dado">Prazo:</span> 15/02/2026</p>
+                    <p><span class="missao-dado">Status:</span> Pendente</p>
+                    <p><span class="missao-dado">Prioridade:</span> Média</p>
+                </div>
 
-    <div class="epoca">• IDADE MÉDIA (700 - 1400)</div>
-    <p>Renomeamos para "Torad Vellum" – "Torad" significa "Aquele que Corta o Caos". Trabalhamos ao lado de ordens militares secretas e eliminamos líderes religiosos que usavam sua fé para manipular povos.</p>
+                <div class="missao-card missao-em-andamento">
+                    <div class="missao-titulo">Missão #M002 - "Investigar"</div>
+                    <p><span class="missao-dado">Objetivo:</span> Infiltrados seguidores de Doci</p>
+                    <p><span class="missao-dado">Local:</span> Cidade de Hytus</p>
+                    <p><span class="missao-dado">Status:</span> Em Andamento</p>
+                    <p><span class="missao-dado">Prioridade:</span> Alta</p>
+                </div>
 
-    <div class="epoca">• ÉPOCA MODERNA (1500 - ATUAL)</div>
-    <p>Expandimos nosso controle para todo o mundo. Fomos responsáveis pela queda de ditadores, por mudanças de governo e por garantir que grandes nações não se tornem ameaças para o equilíbrio global. Hoje, temos agentes em todos os continentes.</p>
+                <div class="missao-card missao-concluida">
+                    <div class="missao-titulo">Missão #M003 - "Marcar"</div>
+                    <p><span class="missao-dado">Objetivo:</span> Marcar vítima código "Healer"</p>
+                    <p><span class="missao-dado">Data Conclusão:</span> 07/02/2026</p>
+                    <p><span class="missao-dado">Status:</span> Concluída</p>
+                    <p><span class="missao-dado">Resultado:</span> Sucesso</p>
+                </div>
 
-    <p align="center"><a href="index.html">Voltar para a página principal</a></p>
-</body>
-</html>
+                <div class="missao-card missao-pendente">
+                    <div class="missao-titulo">Missão #M004 - "Preparar"</div>
+                    <p><span class="missao-dado">Objetivo:</span> Local sagrado para ritual final</p>
+                    <p><span class="missao-dado">Prazo:</span> 28/02/2026</p>
+                    <p><span class="missao-dado">Status:</span> Pendente</p>
+                    <p><span class="missao-dado">Prioridade:</span> Muito Alta</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Aba Arquivos de Vítimas (Estilo Antigo Atualizado) -->
+        <div class="aba-conteudo" id="aba-vitimas">
+            <h2 class="glitch-effect">ARQUIVOS DE VÍTIMAS - CLASSIFICADO NÍVEL 5</h2>
+
+            <div class="perfil-acesso">
+                <p><strong>IDENTIFICADOR:</strong> colab_torad_1892</p>
+                <p><strong>NÍVEL DE ACESSO:</strong> 5</p>
+                <p><strong>DATA DA ÚLTIMA ATUALIZAÇÃO:</strong> 08/02/2026</p>
+            </div>
+
+            <!-- ARQUIVO VÍTIMA #001 -->
+            <div class="arquivo-vitima">
+                <p class="codigo-vitima">ARQUIVO VÍTIMA #001 - CÓDIGO "Healer"</p>
+                <p><span class="dado-vitima">NOME:</span> Nathan Fugisse</p>
+                <p><span class="dado-vitima">IDADE:</span> 23 anos</p>
+                <p><span class="dado-vitima">MAIOR MEDO:</span> Desapontar sua família</p>
+                <p><span class="dado-vitima">ESCALA DE RISCO:</span> <span class="risco-medio">6/10</span></p>
+                <p><span class="dado-vitima">TRABALHO:</span> Aventureiro</p>
+                <p><span class="dado-vitima">ASSASSINO:</span> Assassino dos Pesadelos</p>
+                <p><span class="dado-vitima">STATUS:</span> Concluído</p>
+            </div>
+
+            <!-- ARQUIVO VÍTIMA #002 -->
+            <div class="arquivo-vitima">
+                <p class="codigo-vitima">ARQUIVO VÍTIMA #002 - CÓDIGO "Ladrão"</p>
+                <p><span class="dado-vitima">NOME:</span> Tulio Mendes</p>
+                <p
+                    
