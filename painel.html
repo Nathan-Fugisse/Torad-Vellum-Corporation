@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torad Vellum - Área Restrita</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        :root {
+            --cor-primaria: #D32F2F;
+            --cor-secundaria: #121212;
+            --cor-terciaria: #1E1E1E;
+            --cor-texto-claro: #FAFAFA;
+            --cor-texto-medio: #BDBDBD;
+            --cor-borda: #333333;
+        }
+
+        body {
+            background-color: var(--cor-secundaria);
+            color: var(--cor-texto-claro);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            background-image: radial-gradient(circle at 50% 50%, rgba(211, 47, 47, 0.05), transparent 70%);
+        }
+
+        .login-container {
+            background-color: var(--cor-terciaria);
+            width: 100%;
+            max-width: 400px;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--cor-borda);
+            position: relative;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--cor-primaria), #FF5252);
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo h1 {
+            color: var(--cor-primaria);
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .logo p {
+            color: var(--cor-texto-medio);
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--cor-texto-medio);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--cor-secundaria);
+            border: 1px solid var(--cor-borda);
+            border-radius: 8px;
+            color: var(--cor-texto-claro);
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--cor-primaria);
+            box-shadow: 0 0 10px rgba(211, 47, 47, 0.2);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--cor-primaria);
+            color: var(--cor-texto-claro);
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-login:hover {
+            background-color: #B71C1C;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3);
+        }
+
+        .aviso {
+            text-align: center;
+            color: var(--cor-texto-medio);
+            font-size: 0.8rem;
+            line-height: 1.5;
+            padding-top: 1rem;
+            border-top: 1px solid var(--cor-borda);
+        }
+
+        .aviso strong {
+            color: var(--cor-primaria);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <h1>TORAD VELLUM</h1>
+            <p>ACESSO AO SISTEMA CORPORATIVO</p>
+        </div>
+
+        <div class="form-group">
+            <label for="usuario">IDENTIFICADOR DE AGENTE</label>
+            <input type="text" id="usuario" placeholder="Digite seu identificador">
+        </div>
+
+        <div class="form-group">
+            <label for="senha">CÓDIGO DE ACESSO</label>
+            <input type="password" id="senha" placeholder="Digite seu código de acesso">
+        </div>
+
+        <button class="btn-login" onclick="verificarAcesso()">CONFIRMAR E ACESSAR</button>
+
+        <div class="aviso">
+            <p><strong>ATENÇÃO:</strong> Qualquer tentativa de invasão será registrada e punida conforme o Protocolo Torad-500</p>
+        </div>
+    </div>
+
+    <script>
+        // Função para salvar sessão do usuário
+        function salvarSessao(usuario) {
+            localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+        }
+
+        // Função para verificar acesso
+        function verificarAcesso() {
+            const usuarioDigitado = document.getElementById("usuario").value.trim();
+            const senhaDigitada = document.getElementById("senha").value.trim();
+            
+            // Lista de contas válidas
+            const contasValidas = [
+                { 
+                    usuario: "torad_recruta#987", 
+                    senha: "Vellum#Perg_987", 
+                    nivel: "Recruta",
+                    permissoes: ["painel", "missoes", "perfil"]
+                },
+                { 
+                    usuario: "colab_torad_1892", 
+                    senha: "Vellum#Perg_09", 
+                    nivel: "Colaborador",
+                    permissoes: ["painel", "missoes", "perfil", "vitimas"]
+                }
+            ];
+
+            const contaValida = contasValidas.find(conta => 
+                conta.usuario === usuarioDigitado && conta.senha === senhaDigitada
+            );
+
+            if (contaValida) {
+                salvarSessao(contaValida);
+                window.location.href = "painel.html"; // Redireciona para o painel principal
+            } else {
+                alert("% SISTEMA DE SEGURANÇA ATIVADO %\n\nUSUÁRIO OU SENHA INVÁLIDOS\nSUA TENTATIVA FOI REGISTRADA\n\n% PROTOCOLO TORAD-ALERTA ATIVADO %");
+                document.getElementById("usuario").value = "";
+                document.getElementById("senha").value = "";
+            }
+        }
+
+        // Acessar com tecla Enter
+        document.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                verificarAcesso();
+            }
+        });
+    </script>
+</body>
+</html>
