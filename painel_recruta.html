@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torad Vellum - Painel Recruta</title>
+    <style>
+        /* Estilos Gerais */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        :root {
+            --cor-primaria: #8b0000;
+            --cor-secundaria: #000000;
+            --cor-terciaria: #0a0a0a;
+            --cor-fundo: #1a1a1a;
+            --cor-texto-verde: #00ff00;
+            --cor-texto-laranja: #ff9800;
+            --cor-texto-vermelho: #ff0000;
+            --cor-texto-claro: #e0e0e0;
+        }
+
+        body { 
+            background-color: var(--cor-secundaria); 
+            color: var(--cor-texto-claro);
+            max-width: 1000px; 
+            margin: 0 auto; 
+            padding: 30px 20px;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url('https://i.imgur.com/0Kz3QzH.png');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        /* Menu Superior */
+        .nav-topo {
+            background-color: var(--cor-terciaria);
+            border: 2px solid var(--cor-primaria);
+            padding: 15px 20px;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 15px rgba(139, 0, 0, 0.3);
+        }
+
+        .nav-logo {
+            color: var(--cor-texto-vermelho);
+            font-size: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .nav-usuario {
+            text-align: right;
+        }
+
+        .nav-usuario p {
+            color: var(--cor-texto-verde);
+            font-weight: bold;
+        }
+
+        .btn-sair {
+            background-color: var(--cor-primaria);
+            color: var(--cor-texto-claro);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-sair:hover {
+            background-color: var(--cor-texto-vermelho);
+        }
+
+        /* Container Principal com Abas */
+        .container-principal {
+            background-color: var(--cor-terciaria);
+            border: 2px solid var(--cor-primaria);
+            padding: 25px;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(139, 0, 0, 0.3);
+        }
+
+        .abas {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--cor-primaria);
+            padding-bottom: 10px;
+        }
+
+        .aba-btn {
+            background-color: var(--cor-fundo);
+            border: 1px solid var(--cor-texto-verde);
+            color: var(--cor-texto-verde);
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .aba-btn.ativa {
+            background-color: var(--cor-primaria);
+            border-color: var(--cor-primaria);
+            color: var(--cor-texto-claro);
+        }
+
+        .aba-conteudo {
+            display: none;
+        }
+
+        .aba-conteudo.ativa {
+            display: block;
+        }
+
+        /* Estilos do Mural de Tarefas */
+        .mural-tarefas {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        /* Estilos do Material de Treinamento */
+        .treinamento-container {
+            background-color: var(--cor-fundo);
+            padding: 20px;
+            border: 1px solid var(--cor-texto-verde);
+            margin-top: 20px;
+        }
+
+        .treinamento-item {
+            margin: 15px 0;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--cor-terciaria);
+        }
+
+        .treinamento-titulo {
+            color: var(--cor-texto-laranja);
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .treinamento-link {
+            color: var(--cor-texto-verde);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .treinamento-link:hover {
+            color: var(--cor-texto-laranja);
+            text-decoration: underline;
+        }
+
+        /* Estilos do Chat de Apoio */
+        .chat-container {
+            background-color: var(--cor-fundo);
+            border: 1px solid var(--cor-texto-verde);
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            padding: 10px;
+            border-bottom: 1px solid var(--cor-texto-verde);
+            text-align: center;
+            color: var(--cor-texto-verde);
+            font-weight: bold;
+        }
+
+        .chat-mensagens {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .mensagem {
+            max-width: 70%;
+            padding: 8px;
+            border-radius: 3px;
+        }
+
+        .mensagem-recebida {
+            background-color: var(--cor-terciaria);
+            border: 1px solid var(--cor-texto-laranja);
+            align-self: flex-start;
+        }
+
+        .mensagem-enviada {
+            background-color: var(--cor-primaria);
+            align-self: flex-end;
+        }
+
+        .mensagem-remetente {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+
+        .chat-input {
+            padding: 10px;
+            border-top: 1px solid var(--cor-texto-verde);
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 8px;
+            background-color: var(--cor-terciaria);
+            border: 1px solid var(--cor-texto-verde);
+            color: var(--cor-texto-claro);
+        }
+
+        .btn-enviar {
+            background-color: var(--cor-primaria);
+            border: none;
+            color: var(--cor-texto-claro);
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+
+        /* Efeito Glitch */
+        .glitch-effect {
+            animation: glitch 8s infinite;
+        }
+
+        @keyframes glitch {
+            0% { opacity: 1; }
+            97% { opacity: 1; }
+            98% { opacity: 0.7; }
+            99% { opacity: 1; }
+        }
+
+        /* Aviso Final */
+        .aviso {
+            color: var(--cor-texto-vermelho);
+            font-size: 14px;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            line-height: 1.8;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .nav-topo {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .abas {
+                flex-direction: column;
+            }
+
+            .mural-tarefas {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu Superior -->
+    <div class="nav-topo">
+        <div class="nav-logo">TORAD VELLUM - RECRUTAS</div>
+        <div class="nav-usuario">
+            <p>RECRUTA: torad_recruta#987</p>
+            <p>NÍVEL DE ACESSO: 1</p>
+            <button class="btn-sair" onclick="sairDoSistema()">SAIR DO SISTEMA</button>
+        </div>
+    </div>
+
+    <!-- Container Principal com Abas -->
+    <div class="container-principal">
+        <div class="abas">
+            <button class="aba-btn ativa" onclick="mudarAba('aba-tarefas', this)">Mural de Tarefas</button>
+            <button class="aba-btn" onclick="mudarAba('aba-treinamento', this)">Material de Treinamento</button>
+            <button class="aba-btn" onclick="mudarAba('aba-chat', this)">Chat de Apoio</button>
+        </div>
+
+        <!-- Aba Mural de Tarefas - VAZIA -->
+        <div class="aba-conteudo ativa" id="aba-tarefas">
+            <h2 class="glitch-effect">TAREFAS PARA RECRUTAS - NÍVEL 1</h2>
+            <div class="mural-tarefas">
+                <!-- NENHUMA TAREFA CADASTRADA -->
+            </div>
+        </div>
+
+        <!-- Aba Material de Treinamento -->
+        <div class="aba-conteudo" id="aba-treinamento">
+            <h2 class="glitch-effect">MATERIAL DE TREINAMENTO - RESTRITO</h2>
+
+            <div class="treinamento-container">
+                <div class="treinamento-item">
+                    <div class="treinamento-titulo">📚 MANUAL BÁSICO DA TORAD VELLUM (TORAD-101)</div>
+                    <p>Conteúdo: História da organização, regras gerais, protocolos de segurança básicos.</p>
+                    <p><a href="#" class="treinamento-link">CLIQUE AQUI PARA ACESSAR O MATERIAL</a></p>
+                </div>
+
+                <div class="treinamento-item">
+                    <div class="treinamento-titulo">📊 MÉTODOS DE CLASSIFICAÇÃO DE ALVOS</div>
+                    <p>Conteúdo: Como identificar e classificar perfis de acordo com risco e prioridade.</p>
+                    <p><a href="#" class="treinamento-link">CLIQUE AQUI PARA ACESSAR O MATERIAL</a></p>
+                </div>
+
+                <div class="treinamento-item">
+                    <div class="treinamento-titulo">💻 TUTORIAL DO SISTEMA INTERNO</div>
+                    <p>Conteúdo: Como navegar pelo painel, registrar dados e enviar relatórios.</p>
+                    <p><a href="#" class="treinamento-link">CLIQUE AQUI PARA ACESSAR O MATERIAL</a></p>
+                </div>
+
+                <div class="treinamento-item">
+                    <div class="treinamento-titulo">⚠️ PROTOCOLOS DE EMERGÊNCIA BÁSICOS</div>
+                    <p>Conteúdo: O que fazer em caso de falha de sistema, vazamento de dados ou contato não autorizado.</p>
+                    <p><a href="#" class="treinamento-link">CLIQUE AQUI PARA ACESSAR O MATERIAL</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Aba Chat de Apoio - VAZIO -->
+        <div class="aba-conteudo" id="aba-chat">
+            <h2 class="glitch-effect">CHAT DE APOIO A RECRUTAS</h2>
+            
+            <div class="chat-container">
+                <div class="chat-header">
+                    CONEXÃO COM CENTRO DE APOIO AO RECRUTA
+                </div>
+                <div class="chat-mensagens" id="chat-mensagens">
+                    <!-- NENHUMA MENSAGEM PRÉ-DEFINIDA -->
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="input-mensagem" placeholder="Digite sua dúvida...">
+                    <button class="btn-enviar" onclick="enviarMensagem()">ENVIAR</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="aviso glitch-effect">
+            <p>OS DADOS CONTIDOS NESTE SISTEMA SÃO DESTINADOS APENAS A RECRUTAS DA TORAD VELLUM</p>
+            <p>QUALQUER DIVULGAÇÃO RESULTARÁ EM CANCELAMENTO IMEDIATO DO PROCESSO DE RECRUTAMENTO</p>
+        </div>
+    </div>
+
+    <!-- Scripts das Funcionalidades -->
+    <script>
+        // Função para mudar entre abas
+        function mudarAba(idAba, botaoClicado) {
+            // Esconde todas as abas
+            const abasConteudo = document.querySelectorAll('.aba-conteudo');
+            const abasBotoes = document.querySelectorAll('.aba-btn');
+            
+            abasConteudo.forEach(aba => aba.classList.remove('ativa'));
+            abasBotoes.forEach(btn => btn.classList.remove('ativa'));
+            
+            // Mostra a aba selecionada
+            document.getElementById(idAba).classList.add('ativa');
+            botaoClicado.classList.add('ativa');
+        }
+
+        // Função para enviar mensagem no chat
+        function enviarMensagem() {
+            const input = document.getElementById('input-mensagem');
+            const mensagemTexto = input.value.trim();
+            
+            if (mensagemTexto !== '') {
+                const chatMensagens = document.getElementById('chat-mensagens');
+                const dataAtual = new Date();
+                const hora = dataAtual.getHours().toString().padStart(2, '0');
+                const minuto = dataAtual.getMinutes().toString().padStart(2, '0');
+                
+                const novaMensagem = document.createElement('div');
+                novaMensagem.classList.add('mensagem', 'mensagem-enviada');
+                novaMensagem.innerHTML = `
+                    <div class="mensagem-remetente">torad_recruta#987 [${hora}:${minuto}]</div>
+                    <div>${mensagemTexto}</div>
+                `;
+                
+                chatMensagens.appendChild(novaMensagem);
+                input.value = '';
+                chatMensagens.scrollTop = chatMensagens.scrollHeight; // Rola para baixo
+            }
+        }
+
+        // Função para sair do sistema
+        function sairDoSistema() {
+            localStorage.removeItem('agenteLogado');
+            window.location.href = 'acesso.html';
+        }
+
+        // Permite enviar mensagem com Enter
+        document.getElementById('input-mensagem').addEventListener('keypress', e => {
+            if (e.key === 'Enter') enviarMensagem();
+        });
+
+        // Verifica se o recruta está logado
+        window.onload = function() {
+            const agente = localStorage.getItem('agenteLogado');
+            if (!agente || agente !== 'torad_recruta#987') {
+                window.location.href = 'acesso.html';
+            }
+        }
+    </script>
+</body>
+    </html>
+    
